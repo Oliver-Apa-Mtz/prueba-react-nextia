@@ -1,0 +1,1 @@
+export const API = 'https://qa-api.socioinfonavit.com/api/v1/'
