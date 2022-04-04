@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"
+
+import axios from 'axios'
 
 import Button from '@mui/material/Button'
 import Paper from '@mui/material/Paper'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
-import { red } from '@mui/material/colors'
-import MuiAlert from '@mui/material/Alert';
+import MuiAlert from '@mui/material/Alert'
 
 import logo from '../assets/img/logo.png'
 import Loading from '../components/Loading'
@@ -26,6 +27,16 @@ const Login = () => {
 
     let navigate = useNavigate();
 
+    useEffect(() => {
+        if(localStorage.getItem('token-nextia')){
+            navigate('home')
+        }else{
+            setTimeout(() => {
+                setLoading(false)
+            }, 1000)
+        }
+    })
+
     const inputRef = useRef()
 
     const setFormValidate = (message) => {
@@ -36,18 +47,21 @@ const Login = () => {
         }, 2000)
     }
 
-    useEffect(() => {
-        setTimeout(() => {
-            setLoading(false)
-        }, 1000)
-    })
+    const changeEmail = (event) => {
+        setEmail(event.target.value)
+    }
+
+    const changePassword = (event) => {
+        setPassword(event.target.value)
+    }
+
+    const setDataUser = (data) => {
+        localStorage.setItem('token-nextia', data.headers.authorization)
+        navigate('Home')
+    }
 
     const handleSubmit = (event) => {
-        console.log('entro')
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        setEmail(data.get('email'))
-        setPassword(data.get('password'))
+        event.preventDefault()
         if(!email && !password){
             setFormValidate('Campos incompletos')
         }
@@ -55,19 +69,14 @@ const Login = () => {
             inputRef.current.focus();
         }
         if(email && password) {
-            let params = {
-                "email": email, 
-                "password": password
-                
-            }
-            console.log(params);
-            fetch(API + 'login', {
-                method: 'POST',
-                body: JSON.stringify(params)
+            axios.post(API + 'login', {
+                user: {
+                    "email": email, 
+                    "password": password
+                }
             })
-                .then(response => response.json())
-                .then(data => console.log(data))
-            //navigate('Home');
+            .then(data => setDataUser(data))
+            .catch(error => setFormValidate('Ocurrio un error, intentelo de nuevo'));
         }
     };
 
@@ -75,14 +84,14 @@ const Login = () => {
         <Grid>
             {loading && (
             <Grid container component="main" sx={{ height: '100vh' }}>
-                <Grid item xs={12} sm={6} md={5} component={Paper} elevation={6} square
+                <Grid item xs={12}
                     style={{
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
                     }}>
                     <div className="aspect-w-1 aspect-h-1 rounded-md text-center">
-                        <img src={logo} alt="logo" className="object-center lg:w-full lg:h-full"/>
+                        <img src={logo} alt="logo" className="object-center logo-animate lg:w-full lg:h-full"/>
                         <Loading></Loading>
                     </div>
                 </Grid>
@@ -92,7 +101,7 @@ const Login = () => {
             <Grid container component="main" sx={{ height: '100vh' }}>
                 <Grid item xs={false} sm={6} md={7}
                     sx={{
-                        backgroundImage: 'url(https://source.unsplash.com/random)',
+                        backgroundImage: 'url(https://images.unsplash.com/photo-1465547277055-25135ea1cb56?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80)',
                         backgroundRepeat: 'no-repeat',
                         backgroundColor: (t) =>
                         t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
@@ -116,10 +125,10 @@ const Login = () => {
                         <div className="aspect-w-1 aspect-h-1 rounded-md">
                             <img src={logo} alt="logo" className="object-center lg:w-full lg:h-full"/>
                         </div>
-                        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-                            <input className="inputs" type="text" required id="email" name="email" />
-                            <input className="inputs" required type="password" id="password" name="password" ref={inputRef} />
-                            <Button type="submit" fullWidth variant="contained" sx={{ bgcolor: red['A400'], mt: 3, mb: 2, borderRadius: 10 }}>
+                        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                            <input className="inputs" type="text" required id="email" name="email" value={email} onChange={changeEmail} />
+                            <input className="inputs" required type="password" id="password" name="password" value={password} onChange={changePassword} ref={inputRef} />
+                            <Button className="butttons" type="submit" disabled={email.length === 0} fullWidth variant="contained" sx={{ bgcolor: '#EC5056', mt: 3, mb: 2, borderRadius: 10 }}>
                                 Entrar
                             </Button>
                         </Box>

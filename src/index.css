@@ -12,6 +12,15 @@ code {
     monospace;
 }
 
+.logo-animate{
+  opacity: 0;
+  animation: fadeIn 1.5s;
+}
+@keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
+
 .inputs{
   width: 90%;
   height: 50px;
@@ -26,6 +35,10 @@ code {
   border: 1px solid gray;
   outline: none;
 }
+.butttons:hover{
+  background-color: #EC5056 !important;
+  opacity: .8;
+}
 
 .lds-ellipsis {
   display: inline-block;
@@ -39,7 +52,7 @@ code {
   width: 13px;
   height: 13px;
   border-radius: 50%;
-  background: red;
+  background: #EC5056;
   animation-timing-function: cubic-bezier(0, 1, 1, 0);
 }
 .lds-ellipsis div:nth-child(1) {
