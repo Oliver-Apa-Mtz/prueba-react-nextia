@@ -62,12 +62,6 @@ const Login = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        if(!email && !password){
-            setFormValidate('Campos incompletos')
-        }
-        if(email && !password){
-            inputRef.current.focus();
-        }
         if(email && password) {
             axios.post(API + 'login', {
                 user: {
@@ -78,7 +72,16 @@ const Login = () => {
             .then(data => setDataUser(data))
             .catch(error => setFormValidate('Ocurrio un error, intentelo de nuevo'));
         }
-    };
+    }
+
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            if(email){
+                inputRef.current.focus();
+            }
+        }
+    }
+
 
     return (
         <Grid>
@@ -126,9 +129,9 @@ const Login = () => {
                             <img src={logo} alt="logo" className="object-center lg:w-full lg:h-full"/>
                         </div>
                         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-                            <input className="inputs" type="text" required id="email" name="email" value={email} onChange={changeEmail} />
+                            <input className="inputs" type="text" required id="email" name="email" value={email} onChange={changeEmail} onKeyDown={handleKeyDown} />
                             <input className="inputs" required type="password" id="password" name="password" value={password} onChange={changePassword} ref={inputRef} />
-                            <Button className="butttons" type="submit" disabled={email.length === 0} fullWidth variant="contained" sx={{ bgcolor: '#EC5056', mt: 3, mb: 2, borderRadius: 10 }}>
+                            <Button className="butttons" type="submit" disabled={email.length === 0 || password.length === 0} fullWidth variant="contained" sx={{ bgcolor: '#EC5056', mt: 3, mb: 2, borderRadius: 10 }}>
                                 Entrar
                             </Button>
                         </Box>

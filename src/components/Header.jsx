@@ -13,6 +13,10 @@ import CloseIcon from '@mui/icons-material/Close'
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogTitle from '@mui/material/DialogTitle'
+import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
+import ListItemButton from '@mui/material/ListItemButton'
+import ListItemText from '@mui/material/ListItemText'
 
 import logo from '../assets/img/logo.png'
 
@@ -87,9 +91,16 @@ const Header = ({signOut}) => {
                     sx={{
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: 'flex-end',
+                        justifyContent: 'center',
                         px: [1],
                     }}>
+                    <List>
+                        <ListItem style={{width: '240px', marginLeft: '70px'}}>
+                            <ListItemButton style={{width: '100%'}}>
+                                <ListItemText style={{color: 'white'}} primary="Benevits" />
+                            </ListItemButton>
+                        </ListItem>
+                    </List>
                 </Toolbar>
                 <Button onClick={() => setOpenComfirm(true)} style={{width: '200px', position: 'absolute', right: '10px', bottom: '70px', backgroundColor: 'white', color: '#EC5056'}} variant="contained">Salir</Button>
             </Drawer>

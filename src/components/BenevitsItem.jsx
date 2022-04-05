@@ -9,16 +9,22 @@ import Button from '@mui/material/Button'
 
 const BenevitsItem = ({benevit, unlocked}) => {
     return (
-        <Card sx={{ maxWidth: '100%', backgroundColor: unlocked ? benevit.primary_color : 'white', position: 'relative', boxShadow: '0 3px 6px 6px rgba(0,0,0,.08)' }}>
+        <Card sx={{ maxWidth: '100%', backgroundColor: unlocked ? benevit.primary_color : 'white', position: 'relative', boxShadow: 'rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;' }}>
+            {unlocked && (
             <CardMedia
                 component="img"
-                height={unlocked ? '70px' : '80px'}
-                image={unlocked ? benevit.ally.mini_logo_full_path : benevit.vector_full_path}
+                height={'60px'}
+                image={benevit.ally.mini_logo_full_path}
                 alt={benevit.description}
-                style={{width: unlocked ? '80%' : '40%', margin: '0 auto'}}
+                style={{width: '90%', margin: '0 auto'}}
             />
-            <CardContent style={{padding: '10px', minHeight: unlocked ? '110px' : '100px', backgroundColor: 'white'}}>
-                <Typography style={{fontSize: '11px'}} mb={2}>
+            )}
+            <CardContent style={{padding: '10px', minHeight: '110px', backgroundColor: 'white'}}>
+                {!unlocked && (
+                <img src={benevit.vector_full_path} alt={benevit.description}
+                    style={{display: 'block', height: '100px', margin: '0 auto'}} />
+                )}
+                <Typography className="card-info" style={{fontSize: '10px', minHeight: '110px'}} mb={2}>
                     {benevit.title}
                 </Typography>
                 { unlocked && (
@@ -32,8 +38,8 @@ const BenevitsItem = ({benevit, unlocked}) => {
                 </Grid>
                 )}
                 { !unlocked && (
-                    <Grid style={{width: '100%', position: 'absolute', bottom: '10px', textAlign: 'center'}}>
-                        <Button style={{backgroundColor: '#EC5056'}} variant="contained">Lo quiero</Button>
+                    <Grid style={{width: '100%', position: 'absolute', bottom: '10px', left: 0, textAlign: 'center'}}>
+                        <Button style={{backgroundColor: '#EC5056', textTransform: 'capitalize'}} variant="contained">Lo quiero</Button>
                     </Grid>
                 )}
             </CardContent>

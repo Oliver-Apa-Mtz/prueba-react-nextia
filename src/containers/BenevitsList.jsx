@@ -23,22 +23,28 @@ const BenevitsList = ({wallet}) => {
             </Typography>
             {!dataReady && (
             <Grid container spacing={2}>
-                <Grid item xs={6} md={8}>
+                <Grid item xs={6} sm={4} md={4} lg={3}>
+                    <BenevitsItemSkeleton />
+                </Grid>
+                <Grid item xs={6} sm={4} md={4} lg={3}>
+                    <BenevitsItemSkeleton />
+                </Grid>
+                <Grid item xs={6} sm={4} md={4} lg={3}>
                     <BenevitsItemSkeleton />
                 </Grid>
             </Grid>
             )}
             {dataReady && (
-            <Grid container spacing={2}>
+            <Grid className="container-general" container spacing={2}>
                 {benevits.unlocked.map(item => (
                     item.wallet.id === wallet.id ?
-                    <Grid key={'unlocked'+item.id} item xs={6} sm={4} md={3} lg={3}>
+                    <Grid className="container-item" key={'unlocked'+item.id} item xs={6} sm={4} md={4} lg={3}>
                         <BenevitsItem benevit={item} unlocked={true} />
                     </Grid> : null
                 ))}
                 {benevits.locked.map(item => (
                     item.wallet.id === wallet.id ?
-                    <Grid key={'locked'+item.id} item xs={6} sm={4} md={3} lg={3}>
+                    <Grid className="container-item" key={'locked'+item.id} item xs={6} sm={4} md={4} lg={3}>
                         <BenevitsItem benevit={item} unlocked={false} />
                     </Grid> : null
                 ))}
